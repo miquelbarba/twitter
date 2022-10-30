@@ -47,17 +47,18 @@ func (s *ServerClient) GetAuthURL(tokenUrl string) (string, error) {
 	return requestUrl, nil
 }
 
-func (s *ServerClient) CompleteAuth(tokenKey, verificationCode string) error {
+func (s *ServerClient) CompleteAuth(tokenKey, verificationCode string) (*oauth.AccessToken, error) {
 	accessToken, err := s.OAuthConsumer.AuthorizeToken(s.OAuthTokens[tokenKey], verificationCode)
 	if err != nil {
 		log.Println(err)
-		return err
+		return accessToken, err
 	}
 
 	s.HttpConn, err = s.OAuthConsumer.MakeHttpClient(accessToken)
 	if err != nil {
 		log.Println(err)
-		return err
+		return accessToken, err
 	}
-	return nil
+
+	return accessToken, nil
 }
