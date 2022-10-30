@@ -1,4 +1,4 @@
-module github.com/kkdai/twitter
+module github.com/miquelbarba/twitter
 
 go 1.18
 
